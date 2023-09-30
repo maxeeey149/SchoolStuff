@@ -11,7 +11,7 @@ import com.Maxeeey.TODOListElements.ITODOListElement;
 import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
 @RestController
-public class getTODOREST {
+public class GetTODOREST {
 	private List<ITODOListElement> listOfTODOs = new ArrayList<>();
 	
 	@GetMapping(value="/getNormalTODOListItem")
