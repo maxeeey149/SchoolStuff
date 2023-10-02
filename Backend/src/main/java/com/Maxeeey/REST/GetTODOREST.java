@@ -23,9 +23,17 @@ public class GetTODOREST {
 		return newElement;
 	}
 	
-	@GetMapping("/printListOfTODOs")
+	@GetMapping(value="/printListOfTODOs")
 	public List<ITODOListElement> getList(){
 		System.out.println(listOfTODOs.size());
 		return listOfTODOs;
+	}
+	
+	@GetMapping(value="/deleteListElementById")
+	public String deleteTODOElementById(@RequestParam int id) {
+		if(listOfTODOs.isEmpty()) {
+			return "Die Liste an TODOElementen ist leer!";
+		}
+		return "Das Element wurde erfolgreich gelöscht!";
 	}
 }
