@@ -38,7 +38,6 @@ public class GetTODOREST {
 		if(listOfTODOs.isEmpty()) {
 			return "Die Liste an TODOElementen ist leer!";
 		}
-		//TODO: implement Code to delete TODOElement
 		todoDeleter.deleteListElementById(listOfTODOs, id);
 		return "Das Element wurde erfolgreich gelöscht!";
 	}
