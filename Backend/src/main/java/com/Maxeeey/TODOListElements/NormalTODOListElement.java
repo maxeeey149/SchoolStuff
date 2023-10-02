@@ -3,8 +3,9 @@ package com.Maxeeey.TODOListElements;
 public class NormalTODOListElement implements ITODOListElement {
 	private String name;
 	private boolean isDone = false;
+	private int id;
     
-	public NormalTODOListElement(String name) {
+	public NormalTODOListElement(String name, int id) {
 		this.name = name;
 	}
 	

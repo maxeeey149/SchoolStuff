@@ -9,18 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Maxeeey.TODOListElements.ITODOListElement;
-import com.Maxeeey.TODOListElements.NormalTODOListElement;
+import TODOListElementFactory.TODOElementFactory;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class GetTODOREST {
 	private List<ITODOListElement> listOfTODOs = new ArrayList<>();
+	private TODOElementFactory todoFactory = new TODOElementFactory();
 	
 	@GetMapping(value="/getNormalTODOListItem")
 	public ITODOListElement getNormalTODO(@RequestParam String name) {
-		ITODOListElement newElement = new NormalTODOListElement(name);
-		listOfTODOs.add(newElement);
-		return newElement;
+		return todoFactory.createTODOListElement(name);
 	}
 	
 	@GetMapping(value="/printListOfTODOs")
