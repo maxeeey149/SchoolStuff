@@ -8,7 +8,7 @@ public class TODOREST {
 	
 	@GetMapping(value = "/helloworld")
 	public String printHelloWorld() {
-		return "Was geht ab Freundin?!";
+		return "Eigentlich brauche ich keine Antwort. Ich weiß, wenn ich hier bin, geht's dir fantastisch! Hab ich Recht oder hab ich Recht? Ich hab immer Recht, merk dir das! Jetzt muss ich noch was nettes sagen.";
 	}
 	
 	@GetMapping(value = "/uhrzeiger")

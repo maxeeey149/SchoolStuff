@@ -27,7 +27,7 @@ function displayTODOList(todoList) {
     const headerRow = document.createElement("tr");
 
     // Create table headers (columns)
-    const headers = ["Name", "Is Done"]; // Add more headers if needed
+    const headers = ["Name", "Status"];
 
     headers.forEach((headerText) => {
         const th = document.createElement("th");
@@ -46,11 +46,23 @@ function displayTODOList(todoList) {
         cellName.textContent = todoItem.name;
 
         const cellIsDone = document.createElement("td");
-        cellIsDone.textContent = todoItem.isDone ? "Yes" : "No"; // Display "Yes" if isDone is true, otherwise "No"
+        cellIsDone.textContent = todoItem.isDone ? "✔️" : "❌"; // Display "Yes" if isDone is true, otherwise "No"
+        cellIsDone.addEventListener("click", () => {
+            changeStatus(todoItem.id);
+        });
+
+        //create Button to delete
+        const buttonCell = document.createElement("button");
+        buttonCell.textContent = "delete";
+        buttonCell.addEventListener("click", () => {
+            deletethisTask(todoItem.id);
+        });
+
 
         // Append cells to the row
         row.appendChild(cellName);
         row.appendChild(cellIsDone);
+        row.appendChild(buttonCell);
 
         // Append the row to the table
         table.appendChild(row);
@@ -69,6 +81,47 @@ async function fetchAndDisplayTODOList() {
         console.log("Error fetching and displaying TODO List: " + error);
     }
 }
-
 // Call the fetchAndDisplayTODOList function to fetch and display the list.
 fetchAndDisplayTODOList();
+
+
+
+async function addNewTODOTask(){
+    try {
+        const response = await fetch("http://localhost:8080/addNormalTODOListItem?name="+document.getElementById("numb").value);
+        if (!response.ok) {
+            throw new Error("Der neue Task kann nicht gefetched werden");
+        }
+        document.getElementById("numb").value = "";
+        fetchAndDisplayTODOList();
+    } catch (error) {
+        console.log("Error fetching TODO List: " + error);
+        return [];
+    }
+}
+
+async function deletethisTask(id){
+    try {
+        const response = await fetch("http://localhost:8080/deleteListElementById?id="+id);
+        if (!response.ok) {
+            throw new Error("Der neue Task kann nicht gelöscht werden");
+        }
+        fetchAndDisplayTODOList();
+    } catch (error) {
+        console.log("Error fetching TODO List: " + error);
+        return [];
+    }
+}
+
+async function changeStatus(id){
+    try {
+        const response = await fetch("http://localhost:8080/changeStatusById?id="+id);
+        if (!response.ok) {
+            throw new Error("Der neue Task kann nicht gelöscht werden");
+        }
+        fetchAndDisplayTODOList();
+    } catch (error) {
+        console.log("Error fetching TODO List: " + error);
+        return [];
+    }
+}
