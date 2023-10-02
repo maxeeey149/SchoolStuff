@@ -7,6 +7,7 @@ public class NormalTODOListElement implements ITODOListElement {
     
 	public NormalTODOListElement(String name, int id) {
 		this.name = name;
+		this.id = id;
 	}
 	
 	@Override
@@ -22,4 +23,10 @@ public class NormalTODOListElement implements ITODOListElement {
 	public void changeIsDoneBoolean() {
 		isDone = !isDone;
 	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+	
 }

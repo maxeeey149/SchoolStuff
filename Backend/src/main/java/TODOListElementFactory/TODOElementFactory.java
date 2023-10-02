@@ -10,7 +10,7 @@ import com.Maxeeey.TODOListElements.NormalTODOListElement;
  * This factory sets the Id as a int
  */
 public class TODOElementFactory {
-	private static int staticId = 0;
+	private static int staticId = 1;
 	
 	//until now only returns NormalTODOListElements
 	public ITODOListElement createTODOListElement(String name) {
