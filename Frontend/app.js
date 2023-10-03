@@ -5,21 +5,6 @@ input.addEventListener("keypress", function(event) {
     }
 });
 
-// Define the fetchTODOList function first
-async function fetchTODOList() {
-    try {
-        const response = await fetch("http://localhost:8080/printListOfTODOs");
-        if (!response.ok) {
-            throw new Error("Network response not ok");
-        }
-        const todoList = await response.json();
-        return todoList;
-    } catch (error) {
-        console.log("Error fetching TODO List: " + error);
-        return [];
-    }
-}
-
 function displayTODOList(todoList) {
     const todoListContainer = document.querySelector(".TODOListPlaceholder");
 
@@ -55,14 +40,14 @@ function displayTODOList(todoList) {
         const cellIsDone = document.createElement("td");
         cellIsDone.textContent = todoItem.isDone ? "✔️" : "❌"; // Display "Yes" if isDone is true, otherwise "No"
         cellIsDone.addEventListener("click", () => {
-            changeStatus(todoItem.id);
+            fetchFromRestAPI('changeStatusById', todoItem.id);
         });
 
         //create Button to delete
         const buttonCell = document.createElement("button");
         buttonCell.textContent = "delete";
         buttonCell.addEventListener("click", () => {
-            deletethisTask(todoItem.id);
+            fetchFromRestAPI('deleteListElementById', todoItem.id);
         });
 
 
@@ -79,6 +64,21 @@ function displayTODOList(todoList) {
     todoListContainer.appendChild(table);
 }
 
+// Define the fetchTODOList function first
+async function fetchTODOList() {
+    try {
+        const response = await fetch("http://localhost:8080/printListOfTODOs");
+        if (!response.ok) {
+            throw new Error("Network response not ok");
+        }
+        const todoList = await response.json();
+        return todoList;
+    } catch (error) {
+        console.log("Error fetching TODO List: " + error);
+        return [];
+    }
+}
+
 // Modify the fetchAndDisplayTODOList function to call fetchTODOList and then display the list
 async function fetchAndDisplayTODOList() {
     try {
@@ -88,44 +88,28 @@ async function fetchAndDisplayTODOList() {
         console.log("Error fetching and displaying TODO List: " + error);
     }
 }
+
 // Call the fetchAndDisplayTODOList function to fetch and display the list.
 fetchAndDisplayTODOList();
 
-
-
-async function addNewTODOTask(){
-    try {
-        const response = await fetch("http://localhost:8080/addNormalTODOListItem?name="+document.getElementById("numb").value);
-        if (!response.ok) {
-            throw new Error("Der neue Task kann nicht gefetched werden");
+async function fetchFromRestAPI(fetchServiceName, id){
+    let response = null;
+    try{
+        switch(fetchServiceName){
+            case "addNewTODOTask":
+                response = await fetch("http://localhost:8080/addNormalTODOListItem?name="+document.getElementById("numb").value);
+                break;
+            case "changeStatusById":
+                response = await fetch("http://localhost:8080/changeStatusById?id="+id);
+                break;
+            case "deleteListElementById":
+                response = await fetch("http://localhost:8080/deleteListElementById?id="+id);
+                break;
         }
-        document.getElementById("numb").value = "";
-        fetchAndDisplayTODOList();
-    } catch (error) {
-        console.log("Error fetching TODO List: " + error);
-        return [];
-    }
-}
-
-async function deletethisTask(id){
-    try {
-        const response = await fetch("http://localhost:8080/deleteListElementById?id="+id);
         if (!response.ok) {
-            throw new Error("Der neue Task kann nicht gelöscht werden");
+            throw new Error("Response des Servers nicht ok bei "+fetchServiceName);
         }
-        fetchAndDisplayTODOList();
-    } catch (error) {
-        console.log("Error fetching TODO List: " + error);
-        return [];
-    }
-}
-
-async function changeStatus(id){
-    try {
-        const response = await fetch("http://localhost:8080/changeStatusById?id="+id);
-        if (!response.ok) {
-            throw new Error("Der neue Task kann nicht gelöscht werden");
-        }
+        //update the List
         fetchAndDisplayTODOList();
     } catch (error) {
         console.log("Error fetching TODO List: " + error);
@@ -133,3 +117,5 @@ async function changeStatus(id){
     }
 }
 //TODO: avoid code duplication
+
+//TODO: fix pressing enter bug
