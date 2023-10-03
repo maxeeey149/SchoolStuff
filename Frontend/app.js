@@ -1,3 +1,10 @@
+var input = document.getElementById("numb");
+input.addEventListener("keypress", function(event) {
+    if(event.key === "Enter"){
+        addNewTODOTask();
+    }
+});
+
 // Define the fetchTODOList function first
 async function fetchTODOList() {
     try {
@@ -27,7 +34,7 @@ function displayTODOList(todoList) {
     const headerRow = document.createElement("tr");
 
     // Create table headers (columns)
-    const headers = ["Name", "Status"];
+    const headers = ["Name", "Status", "Action"];
 
     headers.forEach((headerText) => {
         const th = document.createElement("th");
@@ -125,3 +132,4 @@ async function changeStatus(id){
         return [];
     }
 }
+//TODO: avoid code duplication
