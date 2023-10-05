@@ -1,7 +1,7 @@
 var input = document.getElementById("numb");
 input.addEventListener("keypress", function(event) {
     if(event.key === "Enter"){
-        addNewTODOTask();
+        fetchFromRestAPI('addNewTODOTask');
     }
 });
 
@@ -98,6 +98,7 @@ async function fetchFromRestAPI(fetchServiceName, id){
         switch(fetchServiceName){
             case "addNewTODOTask":
                 response = await fetch("http://localhost:8080/addNormalTODOListItem?name="+document.getElementById("numb").value);
+                document.getElementById("numb").value = "";
                 break;
             case "changeStatusById":
                 response = await fetch("http://localhost:8080/changeStatusById?id="+id);
@@ -117,5 +118,3 @@ async function fetchFromRestAPI(fetchServiceName, id){
     }
 }
 //TODO: avoid code duplication
-
-//TODO: fix pressing enter bug
