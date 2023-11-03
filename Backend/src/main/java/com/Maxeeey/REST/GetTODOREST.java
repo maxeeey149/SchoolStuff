@@ -3,48 +3,49 @@ package com.Maxeeey.REST;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Maxeeey.Database.TODOListRepo;
 import com.Maxeeey.TODOListEditor.TODOListEditor;
 import com.Maxeeey.TODOListElements.ITODOListElement;
-
-import TODOListElementFactory.TODOElementFactory;
+import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class GetTODOREST {
-	private List<ITODOListElement> listOfTODOs = new ArrayList<>();
-	private TODOElementFactory todoFactory = new TODOElementFactory();
+	@Autowired
+	private TODOListRepo tODOListRepo;
 	private TODOListEditor todoDeleter = new TODOListEditor();
 	
 	@GetMapping(value="/addNormalTODOListItem")
 	public ITODOListElement getNormalTODO(@RequestParam String name) {
-		ITODOListElement newCreatedTODOTask = todoFactory.createTODOListElement(name);
-		listOfTODOs.add(newCreatedTODOTask);
+		NormalTODOListElement newCreatedTODOTask = new NormalTODOListElement(name);
+		tODOListRepo.save(newCreatedTODOTask);
 		return newCreatedTODOTask;
 	}
 	
 	@GetMapping(value="/printListOfTODOs")
-	public List<ITODOListElement> getList(){
-		System.out.println("Elemente in der TODOListe: "+listOfTODOs.size());
-		return listOfTODOs;
+	public List<NormalTODOListElement> getList(){
+		System.out.println("Elemente in der TODOListe: "+tODOListRepo.count());
+		return tODOListRepo.findAll();
 	}
 	
 	@GetMapping(value="/deleteListElementById")
-	public String deleteTODOElementById(@RequestParam int id) {
-		if(listOfTODOs.isEmpty()) {
+	public String deleteTODOElementById(@RequestParam long id) {
+		if(tODOListRepo.count() == 0) {
 			return "Die Liste an TODOElementen ist leer!";
 		}
-		listOfTODOs = todoDeleter.deleteListElementById(listOfTODOs, id);
+		tODOListRepo.deleteById(id);
 		return "Das Element wurde erfolgreich gelöscht!";
 	}
 	
 	@GetMapping(value="/changeStatusById")
 	public String changeStatusById(@RequestParam int id) {
-		listOfTODOs = todoDeleter.changeStatusById(listOfTODOs, id);
+		tODOListRepo = todoDeleter.changeStatusById(tODOListRepo, id);
 		return "Das Element wurde erfolgreich gelöscht!";
 	}
 }

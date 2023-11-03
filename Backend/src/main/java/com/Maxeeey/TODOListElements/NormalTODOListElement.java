@@ -1,13 +1,19 @@
 package com.Maxeeey.TODOListElements;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 public class NormalTODOListElement implements ITODOListElement {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Use Long for the primary key
 	private String name;
 	private boolean isDone = false;
-	private int id;
     
-	public NormalTODOListElement(String name, int id) {
+	public NormalTODOListElement(String name) {
 		this.name = name;
-		this.id = id;
 	}
 	
 	@Override
@@ -25,7 +31,7 @@ public class NormalTODOListElement implements ITODOListElement {
 	}
 
 	@Override
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 	
