@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Maxeeey.PostgreSQL.DatabaseManager;
 import com.Maxeeey.TODOListElements.ITODOListElement;
 import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
@@ -15,6 +16,9 @@ import com.Maxeeey.TODOListElements.NormalTODOListElement;
 @CrossOrigin(origins = "*")
 public class GetTODOREST {
 	private List<NormalTODOListElement> listWithToDos = new ArrayList<>();
+	
+	
+	
 	static int idCounter = 0;
 	
 	@GetMapping(value="/addNormalTODOListItem")
@@ -58,5 +62,11 @@ public class GetTODOREST {
 			}
 		}
 		return "Es wurde kein Element mit passender ID gefunden";
+	}
+	
+	@GetMapping(value="/checkConnection")
+	public String checkConnection() {
+		DatabaseManager dbManager = new DatabaseManager();
+		return dbManager.connectToDatabase();
 	}
 }
