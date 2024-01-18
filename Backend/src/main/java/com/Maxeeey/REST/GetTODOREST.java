@@ -1,5 +1,10 @@
 package com.Maxeeey.REST;
 
+import java.security.interfaces.RSAKey;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,9 +69,38 @@ public class GetTODOREST {
 		return "Es wurde kein Element mit passender ID gefunden";
 	}
 	
-	@GetMapping(value="/checkConnection")
-	public String checkConnection() {
+	@GetMapping(value="/checkConnectionPossible")
+	public String checkConnectionToDatabase() {
 		DatabaseManager dbManager = new DatabaseManager();
-		return dbManager.connectToDatabase();
+		return dbManager.checkConnectionPossible();
+	}
+	
+	@GetMapping(value="/getListOfTODOs")
+	public String getListOfTODOs() {
+		Connection dataBaseConnection = getDatabaseConnection();
+		
+		Statement stmt;
+		try {
+			stmt = dataBaseConnection.createStatement();
+			stmt.execute("SELECT * from todolistitem");
+			ResultSet rs = stmt.getResultSet();
+			while (rs.next()) {
+				System.out.println(rs.getString("name"));
+				System.out.println(rs.getInt("id"));
+				System.out.println(rs.getBoolean("isdone"));
+			}
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println("Es gab Probleme beim Erstellen des SQL-Statements");
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+	
+	public Connection getDatabaseConnection() {
+		DatabaseManager dbManager = new DatabaseManager();
+		return dbManager.getConnectionToDatabase();
 	}
 }
