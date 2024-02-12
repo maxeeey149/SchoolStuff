@@ -1,11 +1,13 @@
 package com.Maxeeey.PostgreSQL;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.postgresql.ds.PGSimpleDataSource;
-
-import org.postgresql.ds.PGSimpleDataSource;
+import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
 public class DatabaseManager {
 	public String checkConnectionPossible() {
@@ -26,9 +28,7 @@ public class DatabaseManager {
 			e.printStackTrace();
 			return "Driver-Class couldn't be loaded";
 		}
-		
 		return "Verbindung mit der Datenbank konnte hergestellt werden";
-		
 	}
 	
 	
@@ -54,5 +54,55 @@ public class DatabaseManager {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	//executes a query and gives a List of Elements of that.
+	public List<NormalTODOListElement> executeQueryAndListIt(String queryCommand) {
+		Connection dataBaseConnection = this.getConnectionToDatabase();
+		Statement stmt;
+		List<NormalTODOListElement> listWithToDosNEW = new ArrayList<>();
+		
+		try {
+			stmt = dataBaseConnection.createStatement();
+			stmt.execute(queryCommand);
+			ResultSet rs = stmt.getResultSet();
+			if(rs == null) {
+				return null;
+			}
+			while (rs.next()) {
+				NormalTODOListElement newCreatedTODOTask = 
+					new NormalTODOListElement(rs.getString("name"), rs.getInt("id"), rs.getBoolean("isdone"));
+				listWithToDosNEW.add(newCreatedTODOTask);
+			}
+			stmt.close();
+			dataBaseConnection.close();
+		} catch (SQLException e) {
+			System.out.println("Es gab Probleme beim Erstellen des SQL-Statements");
+			e.printStackTrace();
+		}
+		return listWithToDosNEW;
+	}
+	
+	/*
+	 * This method returns the max value for ID. If it fails, it returns -1
+	 */
+	public int executeQueryToGetMaxInt(String queryCommand) {
+		Connection dataBaseConnection = this.getConnectionToDatabase();
+		Statement stmt;
+		try {
+			stmt = dataBaseConnection.createStatement();
+			stmt.execute(queryCommand);
+			ResultSet rs = stmt.getResultSet();
+			if(!rs.next()) {//move cursor to the first row
+				return -1;
+			} 
+			int resultOfQuery = rs.getInt("max");
+			stmt.close();
+			return resultOfQuery;
+		} catch (SQLException e) {
+			System.out.println("Es gab Probleme beim Erstellen des SQL-Statements");
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }

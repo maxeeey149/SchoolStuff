@@ -5,9 +5,10 @@ public class NormalTODOListElement implements ITODOListElement {
 	private String name;
 	private boolean isDone = false;
     
-	public NormalTODOListElement(String name, int id) {
+	public NormalTODOListElement(String name, int id, boolean isDone) {
 		this.name = name;
 		this.id = id;
+		this.isDone = isDone;
 	}
 	
 	@Override
