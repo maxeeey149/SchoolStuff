@@ -83,6 +83,7 @@ async function fetchTODOList() {
 async function fetchAndDisplayTODOList() {
     try {
         const todoList = await fetchTODOList();
+        todoList.sort((a, b) => a.id -b.id);
         displayTODOList(todoList);
     } catch (error) {
         console.log("Error fetching and displaying TODO List: " + error);
@@ -117,4 +118,3 @@ async function fetchFromRestAPI(fetchServiceName, id){
         return [];
     }
 }
-//TODO: avoid code duplication
