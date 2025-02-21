@@ -67,7 +67,7 @@ function displayTODOList(todoList) {
 // Define the fetchTODOList function first
 async function fetchTODOList() {
     try {
-        const response = await fetch("http://localhost:8080/printListOfTODOs");
+        const response = await fetch("http://localhost:9000/printListOfTODOs");
         if (!response.ok) {
             throw new Error("Network response not ok");
         }
@@ -98,14 +98,14 @@ async function fetchFromRestAPI(fetchServiceName, id){
     try{
         switch(fetchServiceName){
             case "addNewTODOTask":
-                response = await fetch("http://localhost:8080/addNormalTODOListItem?name="+document.getElementById("numb").value);
+                response = await fetch("http://localhost:9000/addNormalTODOListItem?name="+document.getElementById("numb").value);
                 document.getElementById("numb").value = "";
                 break;
             case "changeStatusById":
-                response = await fetch("http://localhost:8080/changeStatusById?id="+id);
+                response = await fetch("http://localhost:9000/changeStatusById?id="+id);
                 break;
             case "deleteListElementById":
-                response = await fetch("http://localhost:8080/deleteListElementById?id="+id);
+                response = await fetch("http://localhost:9000/deleteListElementById?id="+id);
                 break;
         }
         if (!response.ok) {
