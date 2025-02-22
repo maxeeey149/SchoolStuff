@@ -12,11 +12,10 @@ import com.Maxeeey.PostgreSQL.DatabaseManager;
 import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")  // Allow frontend to access this API
 public class GetTODOREST {	
 	DatabaseManager dbManager = new DatabaseManager();
 	
-	@CrossOrigin(origins = "http://localhost:9001")
 	@GetMapping(value="/addNormalTODOListItem")
 	public String getNormalTODO(@RequestParam String name) {
 		int maxID = dbManager.executeQueryToGetMaxInt("SELECT MAX(id) from todolistitem");
@@ -28,14 +27,12 @@ public class GetTODOREST {
 		return "A new Element with the name "+name+" was created.";
 	}
 
-	@CrossOrigin(origins = "http://localhost:9001")
 	@GetMapping(value="/deleteListElementById")
 	public String deleteTODOElementById(@RequestParam int id) {
 		dbManager.executeQueryAndListIt("DELETE FROM todolistitem WHERE id ="+id);
 		return "Das gewünschte Element wurde gelöscht";
 	}
 
-	@CrossOrigin(origins = "http://localhost:9001")
 	@GetMapping(value="/changeStatusById")
 	public String changeStatusById(@RequestParam int id) {
 		dbManager.executeQueryAndListIt("UPDATE todolistitem SET isdone = NOT isdone WHERE id = "+id);
@@ -43,7 +40,6 @@ public class GetTODOREST {
 	}
 	
 	//prints out message if databank is reachable
-	@CrossOrigin(origins = "http://localhost:9001")
 	@GetMapping(value="/checkConnectionPossible")
 	public String checkConnectionToDatabase() {
 		DatabaseManager dbManager = new DatabaseManager();
@@ -51,7 +47,6 @@ public class GetTODOREST {
 	}
 	
 	//returns a list of all items in the todolistitemtable
-	@CrossOrigin(origins = "http://localhost:9001")
 	@GetMapping(value="/printListOfTODOs")
 	public List<NormalTODOListElement> getListOfTODOsRest() {
 		return dbManager.executeQueryAndListIt("SELECT * from todolistitem");
