@@ -1,5 +1,5 @@
 body{
-    background-color: #ecc19c;
+    background-color: #333652;
     font-family: Arial, sans-serif;
     padding: 20px;
     text-align: center;
@@ -7,7 +7,7 @@ body{
 
 h2 {
     text-align: center;
-    color: #333;
+    color: #ffffff;
 }
 
 /*border */
@@ -18,10 +18,10 @@ h2 {
 }
 
 .todo-table tr:nth-child(even) {
-    background-color: #1e847f;
+    background-color: #90adc629;
 }
 .todo-table tr:nth-child(odd) {
-    background-color: #000;
+    background-color: #e9eaec39;
 }
 
 /*table header*/
