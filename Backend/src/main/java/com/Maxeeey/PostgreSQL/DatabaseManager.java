@@ -10,8 +10,11 @@ import java.util.List;
 import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
 public class DatabaseManager {
+	//private String ipAdresse = schoolstuff-db-1;
+	private String ipAdresse = "192.168.0.42";
+
 	public String checkConnectionPossible() {
-		String url = "jdbc:postgresql://schoolstuff-db-1:5432/postgres";
+		String url = "jdbc:postgresql://"+ipAdresse+":5432/postgres";
 		String username = "postgres";
 		String password = "gammelfleisch1";
 		
