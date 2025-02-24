@@ -15,6 +15,20 @@ function displayTODOList(todoList) {
     const table = document.createElement("table");
     table.classList.add("todo-table");
 
+   // Add column widths (60%, 20%, 20%)
+   const colgroup = document.createElement("colgroup");
+   const col1 = document.createElement("col");
+   col1.style.width = "60%";
+   const col2 = document.createElement("col");
+   col2.style.width = "20%";
+   const col3 = document.createElement("col");
+   col3.style.width = "20%";
+   colgroup.appendChild(col1);
+   colgroup.appendChild(col2);
+   colgroup.appendChild(col3);
+   table.appendChild(colgroup);
+
+
     // Create a table header row
     const headerRow = document.createElement("tr");
 
@@ -38,7 +52,7 @@ function displayTODOList(todoList) {
         cellName.textContent = todoItem.name;
 
         const cellIsDone = document.createElement("td");
-        cellIsDone.textContent = todoItem.isDone ? "✔️" : "❌"; // Display "Yes" if isDone is true, otherwise "No"
+        cellIsDone.textContent = todoItem.isDone ? "\u2714" : "\u274C"; // Display "Yes" if isDone is true, otherwise "No"
         cellIsDone.addEventListener("click", () => {
             fetchFromRestAPI('changeStatusById', todoItem.id);
         });
@@ -67,13 +81,14 @@ function displayTODOList(todoList) {
 // Define the fetchTODOList function first
 async function fetchTODOList() {
     try {
-        const response = await fetch("http://backend:8080/printListOfTODOs");
+        const response = await fetch("http://localhost:9000/printListOfTODOs");
         if (!response.ok) {
             throw new Error("Network response not ok");
         }
         const todoList = await response.json();
         return todoList;
     } catch (error) {
+        console.log("response:"+response)
         console.log("Error fetching TODO List: " + error);
         return [];
     }
@@ -98,14 +113,14 @@ async function fetchFromRestAPI(fetchServiceName, id){
     try{
         switch(fetchServiceName){
             case "addNewTODOTask":
-                response = await fetch("http://backend:8080/addNormalTODOListItem?name="+document.getElementById("numb").value);
+                response = await fetch("http://localhost:9000/addNormalTODOListItem?name="+document.getElementById("numb").value);
                 document.getElementById("numb").value = "";
                 break;
             case "changeStatusById":
-                response = await fetch("http://backend:8080/changeStatusById?id="+id);
+                response = await fetch("http://localhost:9000/changeStatusById?id="+id);
                 break;
             case "deleteListElementById":
-                response = await fetch("http://backend:8080/deleteListElementById?id="+id);
+                response = await fetch("http://localhost:9000/deleteListElementById?id="+id);
                 break;
         }
         if (!response.ok) {
