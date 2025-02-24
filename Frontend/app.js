@@ -5,6 +5,9 @@ input.addEventListener("keypress", function(event) {
     }
 });
 
+//var localAdress = localhost:9000;
+var localAdress = "http://192.168.0.42:9000";
+
 function displayTODOList(todoList) {
     const todoListContainer = document.querySelector(".TODOListPlaceholder");
 
@@ -81,7 +84,7 @@ function displayTODOList(todoList) {
 // Define the fetchTODOList function first
 async function fetchTODOList() {
     try {
-        const response = await fetch("http://localhost:9000/printListOfTODOs");
+        const response = await fetch(localAdress + "/printListOfTODOs");
         if (!response.ok) {
             throw new Error("Network response not ok");
         }
@@ -113,14 +116,14 @@ async function fetchFromRestAPI(fetchServiceName, id){
     try{
         switch(fetchServiceName){
             case "addNewTODOTask":
-                response = await fetch("http://localhost:9000/addNormalTODOListItem?name="+document.getElementById("numb").value);
+                response = await fetch(localAdress + "/addNormalTODOListItem?name="+document.getElementById("numb").value);
                 document.getElementById("numb").value = "";
                 break;
             case "changeStatusById":
-                response = await fetch("http://localhost:9000/changeStatusById?id="+id);
+                response = await fetch(localAdress + "/changeStatusById?id="+id);
                 break;
             case "deleteListElementById":
-                response = await fetch("http://localhost:9000/deleteListElementById?id="+id);
+                response = await fetch(localAdress +"/deleteListElementById?id="+id);
                 break;
         }
         if (!response.ok) {
