@@ -11,7 +11,8 @@ import com.Maxeeey.TODOListElements.NormalTODOListElement;
 
 public class DatabaseManager {
 	//private String ipAdresse = schoolstuff-db-1;
-	private String ipAdresse = "192.168.0.42";
+	//private String ipAdresse = "192.168.0.42";
+	private String ipAdresse = "db";
 
 	public String checkConnectionPossible() {
 		String url = "jdbc:postgresql://"+ipAdresse+":5432/postgres";
@@ -39,7 +40,7 @@ public class DatabaseManager {
 	 * this function returns Connection Element to Database
 	 */
 	public Connection getConnectionToDatabase() {
-		String url = "jdbc:postgresql://schoolstuff-db-1:5432/postgres";
+		String url = "jdbc:postgresql://"+ipAdresse+":5432/postgres";
 		String username = "postgres";
 		String password = "gammelfleisch1";
 		
