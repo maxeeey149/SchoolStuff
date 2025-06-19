@@ -5,9 +5,9 @@ input.addEventListener("keypress", function(event) {
     }
 });
 
-var localAdress = "localhost:9000";
+//var localAdress = "localhost:9000";
 //var localAdress = "http://192.168.0.42:9000";
-//var localAdress = "todoliste.maxeeey.com:9000";
+var localAdress = "todoliste.maxeeey.com:9000";
 
 function displayTODOList(todoList) {
     const todoListContainer = document.querySelector(".TODOListPlaceholder");
