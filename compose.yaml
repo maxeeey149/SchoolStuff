@@ -3,7 +3,7 @@ services:
     build:
       context: ./Frontend # Path to the directory containing the frontend Dockerfile
     ports: 
-      - "9001:80"
+      - "80:80"
     networks:
       - todonetwork
 
